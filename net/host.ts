@@ -10,7 +10,7 @@ export type ClientMsg =
   | { t: 'join'; token: string; nick: string }
   | { t: 'text'; turn: number; text: string }
   | { t: 'ready'; v: boolean }
-  | { t: 'config'; mode: 'easy' | 'grammar'; variant: 'blind' | 'peek' }
+  | { t: 'config'; mode: 'easy' | 'gram'; variant: 'blind' | 'peek' }
   | { t: 'start' }
   | { t: 'kick'; id: string }
   | { t: 'addBot' }
@@ -45,7 +45,7 @@ export class HostSession {
     switch (m.t) {
       case 'text': r = g.setText(id, Number(m.turn), String(m.text ?? '')); break;
       case 'ready': r = g.setReady(id, m.v === true, now); break;
-      case 'config': r = g.config(id, m.mode as 'easy' | 'grammar', m.variant as 'blind' | 'peek'); break;
+      case 'config': r = g.config(id, m.mode as 'easy' | 'gram', m.variant as 'blind' | 'peek'); break;
       case 'start': r = g.start(id, now); break;
       case 'kick': r = g.kick(id, String(m.id)); this.dropToken(String(m.id)); break;
       case 'addBot': r = g.addBot(id); break;
