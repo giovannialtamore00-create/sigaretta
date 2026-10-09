@@ -92,19 +92,19 @@ Mouse e tastiera su desktop, touch su telefono; si progetta prima per i telefoni
 - Rivelazione, Voto (timer 30s), Fine partita: come in sezione 7.
 
 ## 9. Architettura
-- Server su Cloudflare (Workers + Durable Objects, WebSocket), una stanza per codice. Il server è l'arbitro: timer, turni, rotazione, pronto, voti, rientri, host, bot.
-- Il server controlla tutto: lunghezza, massimo giocatori, nickname unici; solo l'host avvia, cambia modalità/variante, gestisce bot, espelle.
-- Il server invia a ogni giocatore solo ciò che può vedere (BLIND nessun pezzo precedente, PEEK solo l'ultimo).
-- Client: pagina web leggera per telefoni, nessuna logica di gioco.
-- TypeScript ovunque; il motore delle regole è un modulo indipendente da Cloudflare (`engine/`), testabile da solo.
+- Peer-to-peer con PeerJS (decisione dell'autore, ottobre 2026): il browser dell'host fa da server. Esegue `engine/` (arbitro: timer, turni, rotazione, pronto, voti, rientri, bot) tramite `net/host.ts`. Il codice stanza è l'ID PeerJS dell'host. Niente Cloudflare.
+- L'host controlla tutto: lunghezza, massimo giocatori, nickname unici; solo l'host avvia, cambia modalità/variante, gestisce bot, espelle.
+- L'host invia a ogni giocatore solo ciò che può vedere (BLIND nessun pezzo precedente, PEEK solo l'ultimo). Il browser dell'host vede tutto: accettato.
+- **Host che esce = stanza chiusa** (cambia il passaggio host di §2: con P2P nessun altro ha lo stato). Gli altri vedono "Host disconnesso". I giocatori che cadono possono rientrare finché l'host resta.
+- Client: pagina web statica per telefoni, nessuna logica di gioco; ospitata su GitHub Pages.
+- TypeScript ovunque; il motore delle regole è un modulo indipendente (`engine/`), testabile da solo.
 - Link pubblico, nessun account. Nessun salvataggio delle storie. Rientro tramite identificativo salvato nel browser.
 - Verso l'app: la stessa pagina web, prima installabile dal browser.
-- Test automatici sul motore: meno di 7 giocatori, disconnessioni e rientri, passaggio host, pareggi, revealer assente, "pronto" annullato mentre scatta l'avanzamento.
-- Prima di costruire il server: verificare i limiti del piano gratuito di Cloudflare e dire all'autore se bastano per una serata tra amici (non ancora verificato).
+- Test automatici: meno di 7 giocatori, disconnessioni e rientri, pareggi, revealer assente, "pronto" annullato mentre scatta l'avanzamento; rete: nessun pezzo nascosto arriva al client sbagliato.
 - Solo italiano, nessuna analitica.
 
 ## 10. Prototipo (sigaretta.html)
-Riferimento di comportamento; limiti da NON replicare: logica nel browser dell'host, tutti ricevono tutto, niente espulsione né passaggio host.
+Riferimento di comportamento; limiti da NON replicare: tutti ricevono tutto, niente espulsione né passaggio host.
 
 ## 11. Decisioni prese
 - Ritorno alla lobby: ognuno per conto suo.

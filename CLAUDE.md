@@ -1,6 +1,6 @@
 # SIGARETTA
 
-Party game online di scrittura collettiva (italiano, telefoni prima). Stack: TypeScript, Cloudflare Workers + Durable Objects, vitest.
+Party game online di scrittura collettiva (italiano, telefoni prima). Stack: TypeScript, PeerJS (P2P, host = server), GitHub Pages, vitest.
 
 ## Rules
 - Le regole di gioco in DESIGN.md non si cambiano senza conferma dell'autore.
@@ -15,5 +15,5 @@ Party game online di scrittura collettiva (italiano, telefoni prima). Stack: Typ
 
 ## Status
 - Fase 1 (motore + test): fatta, 37 test passano.
-- Prossimo: Fase 2, server Cloudflare. Prima verificare i limiti del piano gratuito e riferirli all'autore.
+- Fase 2 (P2P, niente Cloudflare): M2 fatto (net/host.ts + test, host che esce = stanza chiusa). Prossimo: M3 interfaccia telefono + adattatore PeerJS (net/peer), poi M4 push GitHub (repo 'sigaretta', pubblico) e Pages.
 - Da confermare: espulso non rientra; i bot dell'host votano e rivelano; PEEK mostra "…" se il pezzo è vuoto. Voto: non rifinire.
