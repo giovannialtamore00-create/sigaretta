@@ -4,5 +4,5 @@
     "lib": ["ES2022", "DOM"],
     "strict": true, "noEmit": true, "skipLibCheck": true
   },
-  "include": ["engine", "net", "web"]
+  "include": ["engine", "net", "web", "vite.config.ts"]
 }
