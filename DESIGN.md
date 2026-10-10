@@ -7,7 +7,8 @@ Party game online di scrittura collettiva, tipo "telefono senza fili" / "cadaver
 - Obiettivo: far ridere. Nessun punteggio.
 - Giocatori: da 4 a 10 (i bot contano).
 - Online, a stanze create da un host, nel browser (in futuro anche app dalla stessa pagina).
-- Solo italiano. Interfaccia semplicissima, pensata per telefoni (testi grandi, pulsanti facili). Niente suoni né musica.
+- Solo italiano. Interfaccia semplicissima, pensata per telefoni (testi grandi, pulsanti facili). Effetti sonori e musica di sottofondo, regolabili (sezione 8.1).
+- Il nome "Sigaretta" è solo un nome: niente fumo né sigarette nella grafica.
 
 ## 2. Stanze e lobby
 - Home: "Crea stanza" e "Entra con codice".
@@ -90,6 +91,22 @@ Mouse e tastiera su desktop, touch su telefono; si progetta prima per i telefoni
 - Lobby: codice e pulsante per copiare il link d'invito; elenco giocatori (host, bot, offline, "n/10"); solo host: modalità, variante, "+ Bot" / "− Bot", rimozione, "Avvia" attivo da 4.
 - Scrittura: "Turno X/7", domanda, timer 40s; in PEEK il pezzo precedente; campo con contatore (max 120); "Pronto" / "Annulla pronto"; elenco giocatori con segno su chi è pronto.
 - Rivelazione, Voto (timer 30s), Fine partita: come in sezione 7.
+
+### 8.1 Stile (direzione artistica)
+**Un'idea sola: un quaderno a righe scarabocchiato a matita, passato di mano in mano.** Tutte le schermate seguono questo stile, nessuna esclusa.
+- **Sfondo e materiali:** carta da quaderno a righe azzurre con margine rosso, bianco caldo, grana leggera, bordi un po' consumati. I pannelli sono fogli strappati o piegati; il foglio di ogni storia è un foglio arrotolato/piegato che passa al vicino.
+- **Tratto:** disegnato a matita, linee sketchy e un po' storte (bordi doppi, non perfetti). Pulsanti come riquadri disegnati a mano con tratteggio a matita; scarabocchi e doodle (stelline, frecce, spirali, faccine) negli angoli vuoti. Tutto disegnato in codice (SVG/CSS), nessun file immagine.
+- **Colori:** grafite (grigio scuro) per testo e tratti, azzurro delle righe, rosso del margine; un solo colore d'accento tipo evidenziatore giallo per l'azione principale.
+- **Font:** stile fumetto/scritto a mano, ben leggibile su telefono e con le lettere accentate. Font con licenza libera, incluso nel sito.
+- **Momenti da curare:**
+  - Invio del pezzo ("Pronto"): il foglio si piega/arrotola e scivola via verso destra.
+  - Rivelazione: ogni pezzo compare come se venisse scritto a matita.
+  - Timer: una matita che si consuma; negli ultimi 10 secondi trema.
+  - Pulsanti: alla pressione si "schiacciano" come carta.
+  - Voto: la storia scelta viene cerchiata a matita.
+- **Suoni:** effetti di carta e matita (foglio che si piega, scarabocchio, pagina girata, gomma), generati in codice. Musica di sottofondo lo-fi rilassata in loop, generata in codice.
+- **Impostazioni audio:** volume musica e volume effetti separati (con muto), raggiungibili da ogni schermata, ricordati dal browser. Musica parte solo dopo il primo tocco (regola dei browser).
+- **Telefoni prima:** testi grandi e leggibili, l'effetto disegnato non deve mai rendere il testo difficile da leggere.
 
 ## 9. Architettura
 - Peer-to-peer con PeerJS (decisione dell'autore, ottobre 2026): il browser dell'host fa da server. Esegue `engine/` (arbitro: timer, turni, rotazione, pronto, voti, rientri, bot) tramite `net/host.ts`. Il codice stanza è l'ID PeerJS dell'host. Niente Cloudflare.

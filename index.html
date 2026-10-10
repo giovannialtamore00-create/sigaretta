@@ -3,11 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#dfe5ea">
   <title>Sigaretta</title>
   <link rel="stylesheet" href="/web/style.css">
 </head>
 <body>
-  <main id="app"></main>
+  <!-- tratto a matita: fa tremare un po' i bordi disegnati -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="pencil">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
+
+  <div class="page">
+    <div class="doodles" aria-hidden="true">
+      <svg class="d-star" viewBox="0 0 60 60"><path d="M30 6l6 16 17 1-13 11 5 17-15-10-15 10 5-17L7 23l17-1z" /><path d="M31 9l5 14 15 2-12 10 4 15" opacity=".5"/></svg>
+      <svg class="d-spiral" viewBox="0 0 60 60"><path d="M31 30c0-2 3-2 3 0 0 4-6 5-7 0-1-6 8-8 11-2 4 7-4 14-11 12-9-2-11-14-4-20 8-7 21-3 23 8 2 10-6 19-16 19"/></svg>
+      <svg class="d-smile" viewBox="0 0 60 60"><path d="M30 6c14-1 25 10 24 24-1 13-11 24-25 23C15 52 6 42 6 29 7 16 17 6 31 7"/><path d="M21 22v5M38 21v5"/><path d="M18 36c6 8 18 9 24-1"/></svg>
+      <svg class="d-arrow" viewBox="0 0 90 50"><path d="M4 40c18-26 46-34 76-22"/><path d="M68 9l13 9-15 6"/></svg>
+    </div>
+    <main id="app"></main>
+  </div>
+
+  <button class="audio-btn sec" id="audioBtn" aria-label="Impostazioni audio">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M15 29V10l16-4v19"/><ellipse cx="11" cy="29" rx="5" ry="4"/><ellipse cx="27" cy="25" rx="5" ry="4"/></svg>
+  </button>
+  <div class="audio-panel" id="audioPanel" hidden>
+    <h2>Audio</h2>
+    <label>Musica <input type="range" id="volMusic" min="0" max="1" step="0.05"></label>
+    <label>Effetti <input type="range" id="volSfx" min="0" max="1" step="0.05"></label>
+    <div class="row">
+      <button class="sec" id="mute"></button>
+      <button id="audioClose">Chiudi</button>
+    </div>
+  </div>
+
   <script type="module" src="/web/main.ts"></script>
 </body>
 </html>
