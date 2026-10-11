@@ -12,15 +12,17 @@
   --wobbly: 255px 14px 225px 16px / 16px 225px 14px 255px;
   --wobbly2: 18px 230px 20px 245px / 230px 18px 250px 16px;
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .2 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --fibers: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .45' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .46 0 0 0 0 .39 0 0 0 0 .27 0 0 0 1.7 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)' opacity='.08'/%3E%3C/svg%3E");
 }
 
 * { box-sizing: border-box; }
 html {
   overflow-x: hidden;
   background:
-    radial-gradient(ellipse 70% 60% at 38% 35%, rgba(255, 196, 120, .16), transparent 70%),
-    radial-gradient(ellipse at 45% 40%, transparent 45%, rgba(0, 0, 0, .6) 100%),
-    #2b190d url("./table.svg") 0 0 / 900px 720px;
+    radial-gradient(ellipse 70% 60% at 38% 35%, rgba(255, 196, 120, .08), transparent 70%),
+    radial-gradient(ellipse at 50% 45%, transparent 40%, rgba(0, 0, 0, .55) 100%),
+    #1e1008 url("./table.jpg") center / cover;
+  background-attachment: fixed;
 }
 body {
   margin: 0; min-height: 100vh;
@@ -30,25 +32,34 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ---------- il foglio del quaderno ---------- */
-.desk { display: flex; align-items: flex-start; min-height: 100vh; }
+/* ---------- il foglio del quaderno (carta con fibre, luce, bordi invecchiati e spessore) ---------- */
+.desk { display: block; min-height: 100vh; }
 .page {
-  position: relative; z-index: 1; flex: 1 1 auto; min-width: 0; max-width: 702px; min-height: calc(100vh - 24px); margin: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .55), 2px 3px 0 rgba(0, 0, 0, .35);
+  position: relative; z-index: 1; max-width: 702px; min-height: calc(100vh - 24px); margin: 12px auto;
+  border-radius: 2px;
   background-color: var(--paper);
   background-image:
+    radial-gradient(ellipse 90% 70% at 22% 12%, rgba(255, 253, 238, .6), transparent 70%),   /* luce calda in alto a sinistra */
+    radial-gradient(ellipse 80% 60% at 95% 100%, rgba(150, 118, 66, .18), transparent 70%),   /* angolo in ombra */
+    var(--fibers),
     var(--grain),
     linear-gradient(90deg, transparent calc(var(--m) - 1px), var(--margin) calc(var(--m) - 1px), var(--margin) calc(var(--m) + 1px), transparent calc(var(--m) + 1px)),
     repeating-linear-gradient(transparent 0 calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px) var(--line));
-  background-position: 0 0, 0 0, 0 12px;
+  background-size: 100% 100%, 100% 100%, 300px 300px, auto, auto, auto;
+  background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 12px;
+  background-attachment: scroll, scroll, local, local, local, local;
+  box-shadow:
+    inset 0 0 55px rgba(139, 105, 50, .2), inset 0 0 3px rgba(120, 90, 45, .4),            /* bordi un po' ingialliti */
+    1px 1px 0 #e9e3d3, 2px 2px 0 #d2cbb7, 3px 3px 0 #e4ddcc, 4px 5px 0 #b8b09a,               /* fogli sotto: spessore */
+    0 3px 5px rgba(0, 0, 0, .5), 10px 16px 34px rgba(0, 0, 0, .65);                         /* ombra sul tavolo */
 }
 @media (min-width: 760px) {
   :root { --m: 64px; }
-  .page { flex: none; width: 702px; margin: 24px 0 24px auto; min-height: calc(100vh - 48px); }
-  /* fori del quaderno ad anelli */
+  .page { width: 702px; margin: 24px auto; min-height: calc(100vh - 48px); }
+  /* fori del quaderno ad anelli: forati nella carta, si vede il legno sotto */
   .page::before {
-    content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 18px;
-    background: radial-gradient(circle at 9px 9px, #24150b 7px, #6b5a4a 8px, transparent 9px) 0 20px / 18px 72px repeat-y;
+    content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 20px;
+    background: radial-gradient(circle at 10px 10px, #120a05 0 4.5px, #2e1c0e 5.5px, #6a5a45 6.8px, #d9d1bd 8px, rgba(0, 0, 0, .2) 9px, transparent 10px) 0 20px / 20px 72px repeat-y;
   }
 }
 
@@ -207,9 +218,9 @@ input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 
 /* ---------- il tavolo: posacenere visto dall'alto ---------- */
 /* --ash-d (diametro) lo calcola main.ts: il posacenere vale il 25% dell'area del foglio */
 .ash {
-  position: sticky; top: calc(50vh - var(--ash-d, 360px) / 2); z-index: 0; flex: none; pointer-events: none;
+  position: fixed; z-index: 0; pointer-events: none;
+  left: calc(50% + 351px - var(--ash-d, 360px) * .33); top: calc(50vh - var(--ash-d, 360px) / 1.9);
   width: calc(var(--ash-d, 360px) / .95); height: calc(var(--ash-d, 360px) / .95);
-  margin: 0 auto 0 calc(var(--ash-d, 360px) * -.16);
 }
 .ash svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .puff { fill: #f0ede6; opacity: 0; filter: url(#blur7); transform-box: fill-box; transform-origin: center; animation: rise 7s ease-out infinite; }
@@ -229,6 +240,6 @@ input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 
   .page {
     margin: 6px; height: calc(100dvh - 12px); min-height: 0;
     overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
-    background-attachment: local;
+    background-attachment: scroll, scroll, local, local, local, local;
   }
 }
