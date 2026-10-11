@@ -221,7 +221,14 @@ input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 
 }
 @keyframes ember { 50% { opacity: .65; } }
 @media (max-width: 759px) {
-  /* telefono: il foglio occupa tutta la larghezza, il posacenere spunta dall'angolo in basso */
-  .desk { display: block; }
-  .ash { position: fixed; top: auto; right: calc(var(--ash-d, 300px) * -.58); bottom: calc(var(--ash-d, 300px) * -.6); margin: 0; }
+  /* telefono: schermo bloccato sul foglio, solo un sottile bordo di legno; senza posacenere.
+     Il foglio scorre da solo se il contenuto e' lungo, la pagina no. */
+  html, body { height: 100%; overflow: hidden; }
+  .desk { display: block; height: 100dvh; min-height: 0; }
+  .ash { display: none; }
+  .page {
+    margin: 6px; height: calc(100dvh - 12px); min-height: 0;
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    background-attachment: local;
+  }
 }
