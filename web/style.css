@@ -15,7 +15,13 @@
 }
 
 * { box-sizing: border-box; }
-html { background: var(--desk); }
+html {
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 38% 35%, rgba(255, 196, 120, .16), transparent 70%),
+    radial-gradient(ellipse at 45% 40%, transparent 45%, rgba(0, 0, 0, .6) 100%),
+    #2b190d url("./table.svg") 0 0 / 900px 720px;
+}
 body {
   margin: 0; min-height: 100vh;
   font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
@@ -25,8 +31,10 @@ body {
 }
 
 /* ---------- il foglio del quaderno ---------- */
+.desk { display: flex; align-items: flex-start; min-height: 100vh; }
 .page {
-  position: relative; max-width: 540px; min-height: 100vh; margin: 0 auto;
+  position: relative; z-index: 1; flex: 1 1 auto; min-width: 0; max-width: 702px; min-height: calc(100vh - 24px); margin: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .55), 2px 3px 0 rgba(0, 0, 0, .35);
   background-color: var(--paper);
   background-image:
     var(--grain),
@@ -34,16 +42,13 @@ body {
     repeating-linear-gradient(transparent 0 calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px) var(--line));
   background-position: 0 0, 0 0, 0 12px;
 }
-@media (min-width: 560px) {
+@media (min-width: 760px) {
   :root { --m: 64px; }
-  .page {
-    margin: 24px auto; min-height: calc(100vh - 48px);
-    box-shadow: 0 1px 0 #c9d0d6, 6px 8px 0 -2px #eef1f3, 6px 8px 0 -1px #c9d0d6;
-  }
+  .page { flex: none; width: 702px; margin: 24px 0 24px auto; min-height: calc(100vh - 48px); }
   /* fori del quaderno ad anelli */
   .page::before {
     content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 18px;
-    background: radial-gradient(circle at 9px 9px, var(--desk) 7px, #c4ccd3 8px, transparent 9px) 0 20px / 18px 72px repeat-y;
+    background: radial-gradient(circle at 9px 9px, #24150b 7px, #6b5a4a 8px, transparent 9px) 0 20px / 18px 72px repeat-y;
   }
 }
 
@@ -148,7 +153,7 @@ textarea {
 
 /* timer: una matita che si consuma */
 .timer { display: flex; align-items: center; gap: 12px; height: 36px; margin-bottom: 6px; }
-.pencil { flex: 1; display: flex; align-items: center; height: 20px; }
+.pencil { flex: 1; display: flex; justify-content: flex-end; align-items: center; height: 20px; } /* gomma ferma a destra: si consuma dalla punta */
 .pencil .tip { width: 22px; height: 20px; background: linear-gradient(90deg, var(--graphite) 30%, #e7c9a0 31%); clip-path: polygon(0 50%, 100% 0, 100% 100%); }
 .pencil .wood { height: 20px; background: #f1c232; border-top: 2px solid #c99a12; border-bottom: 2px solid #c99a12; transition: width .25s linear; }
 .pencil .ferrule { width: 12px; height: 22px; background: repeating-linear-gradient(90deg, #b8bcc2 0 3px, #8d9198 3px 4px); }
@@ -176,14 +181,14 @@ summary { font-size: 27px; cursor: pointer; padding: 2px 0; }
 
 /* ---------- impostazioni audio ---------- */
 .audio-btn {
-  position: fixed; z-index: 5; top: 10px; right: max(10px, calc(50vw - 260px));
+  position: fixed; z-index: 5; top: 10px; right: calc(var(--page-gap, 0px) + 12px);
   width: 48px; height: 48px; margin: 0; padding: 7px; background: var(--paper); border-radius: 50%;
 }
 .audio-btn::before, .audio-btn::after { border-radius: 50%; }
 .audio-btn svg { width: 100%; height: 100%; fill: none; stroke: var(--graphite); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .audio-btn.off svg { opacity: .35; }
 .audio-panel {
-  position: fixed; z-index: 6; top: 66px; right: max(10px, calc(50vw - 260px)); width: min(320px, calc(100vw - 20px));
+  position: fixed; z-index: 6; top: 66px; right: calc(var(--page-gap, 0px) + 12px); width: min(320px, calc(100vw - 20px));
   padding: 6px 18px 12px; background: #fff7b0 var(--grain);
   transform: rotate(1.5deg); filter: drop-shadow(3px 4px 0 rgba(51, 54, 60, .2));
 }
@@ -197,4 +202,26 @@ input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
+}
+
+/* ---------- il tavolo: posacenere visto dall'alto ---------- */
+/* --ash-d (diametro) lo calcola main.ts: il posacenere vale il 25% dell'area del foglio */
+.ash {
+  position: sticky; top: calc(50vh - var(--ash-d, 360px) / 2); z-index: 0; flex: none; pointer-events: none;
+  width: calc(var(--ash-d, 360px) / .95); height: calc(var(--ash-d, 360px) / .95);
+  margin: 0 auto 0 calc(var(--ash-d, 360px) * -.16);
+}
+.ash svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.puff { fill: #f0ede6; opacity: 0; filter: url(#blur7); transform-box: fill-box; transform-origin: center; animation: rise 7s ease-out infinite; }
+.glow { animation: ember 2.4s ease-in-out infinite; }
+@keyframes rise {
+  0% { transform: translate(0, 0) scale(.35); opacity: 0; }
+  12% { opacity: .62; }
+  100% { transform: translate(var(--dx), -340px) scale(3.4); opacity: 0; }
+}
+@keyframes ember { 50% { opacity: .65; } }
+@media (max-width: 759px) {
+  /* telefono: il foglio occupa tutta la larghezza, il posacenere spunta dall'angolo in basso */
+  .desk { display: block; }
+  .ash { position: fixed; top: auto; right: calc(var(--ash-d, 300px) * -.58); bottom: calc(var(--ash-d, 300px) * -.6); margin: 0; }
 }

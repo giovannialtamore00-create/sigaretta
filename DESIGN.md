@@ -94,14 +94,15 @@ Mouse e tastiera su desktop, touch su telefono; si progetta prima per i telefoni
 
 ### 8.1 Stile (direzione artistica)
 **Un'idea sola: un quaderno a righe scarabocchiato a matita, passato di mano in mano.** Tutte le schermate seguono questo stile, nessuna esclusa.
-- **Sfondo e materiali:** carta da quaderno a righe azzurre con margine rosso, bianco caldo, grana leggera, bordi un po' consumati. I pannelli sono fogli strappati o piegati; il foglio di ogni storia è un foglio arrotolato/piegato che passa al vicino.
+- **Tavolo:** il foglio è appoggiato su un tavolo di quercia scura visto dall'alto (assi, venature, luce calda). Accanto c'è un posacenere di ceramica con una sigaretta accesa (brace che pulsa, fumo che sale), disegnato in SVG in modo semi-realistico; la sua area è il 25% di quella del foglio. Su telefono il foglio occupa tutta la larghezza e il posacenere spunta solo dall'angolo.
+- **Foglio:** largo 702 px su schermo grande (prima 540). Sfondo e materiali: carta da quaderno a righe azzurre con margine rosso, bianco caldo, grana leggera, bordi un po' consumati. I pannelli sono fogli strappati o piegati; il foglio di ogni storia è un foglio arrotolato/piegato che passa al vicino.
 - **Tratto:** disegnato a matita, linee sketchy e un po' storte (bordi doppi, non perfetti). Pulsanti come riquadri disegnati a mano con tratteggio a matita; scarabocchi e doodle (stelline, frecce, spirali, faccine) negli angoli vuoti. Tutto disegnato in codice (SVG/CSS), nessun file immagine.
 - **Colori:** grafite (grigio scuro) per testo e tratti, azzurro delle righe, rosso del margine; un solo colore d'accento tipo evidenziatore giallo per l'azione principale.
 - **Font:** stile fumetto/scritto a mano, ben leggibile su telefono e con le lettere accentate. Font con licenza libera, incluso nel sito.
 - **Momenti da curare:**
   - Invio del pezzo ("Pronto"): il foglio si piega/arrotola e scivola via verso destra.
   - Rivelazione: ogni pezzo compare come se venisse scritto a matita.
-  - Timer: una matita che si consuma; negli ultimi 10 secondi trema.
+  - Timer: una matita che si consuma dalla punta (la gomma resta ferma); negli ultimi 10 secondi trema.
   - Pulsanti: alla pressione si "schiacciano" come carta.
   - Voto: la storia scelta viene cerchiata a matita.
 - **Suoni:** effetti di carta e matita (foglio che si piega, scarabocchio, pagina girata, gomma), generati in codice. Musica di sottofondo lo-fi rilassata in loop, generata in codice.

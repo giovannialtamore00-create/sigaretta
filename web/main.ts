@@ -311,3 +311,16 @@ addEventListener('pointerdown', unlockAudio);
 addEventListener('keydown', unlockAudio);
 // colpetto di matita su ogni pulsante
 addEventListener('click', (e) => { if ((e.target as Element).closest('button')) sfx('tap'); });
+
+// ---------- tavolo ----------
+// il posacenere (cerchio) vale il 25% dell'area visibile del foglio: pi*(d/2)^2 = 0.25*w*h
+const pageEl = document.querySelector<HTMLElement>('.page')!;
+function layoutDesk() {
+  const root = document.documentElement;
+  const r = pageEl.getBoundingClientRect();
+  const h = innerHeight - (innerWidth >= 760 ? 48 : 24);
+  root.style.setProperty('--ash-d', `${Math.sqrt((r.width * h) / Math.PI).toFixed(1)}px`);
+  root.style.setProperty('--page-gap', `${Math.max(0, root.clientWidth - pageEl.getBoundingClientRect().right).toFixed(1)}px`);
+}
+layoutDesk();
+addEventListener('resize', layoutDesk);
