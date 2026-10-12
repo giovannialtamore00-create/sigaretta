@@ -8,13 +8,13 @@ export const CRITERIA: Record<Mode, string[]> = {
 // Frasi dei bot, dal prototipo (costante BP): una lista per turno.
 export const BOT_PHRASES: Record<Mode, string[][]> = {
   easy: [
-    ['Un pirata', 'La nonna', 'Il mio vicino', 'Un gatto', 'Il prof di storia', 'Un astronauta'],
-    ['mangia sassi', 'balla il tango', 'litiga col frigo', 'vende nuvole', 'canta sotto la doccia', 'insegue un piccione'],
-    ['di nascosto', 'con eleganza', 'a testa in giù', 'senza pantaloni', 'piangendo di gioia', 'in silenzio'],
-    ['in cucina', 'sulla luna', 'al supermercato', 'in tangenziale', 'dentro un armadio', 'a Milano'],
-    ['con un pinguino', 'con la zia Rosa', 'con un fantasma', 'con Napoleone', 'con nessuno', 'con un tostapane'],
-    ['ieri a mezzanotte', "domani all'alba", "durante l'esame", 'a Natale', 'ogni lunedì', 'nel 1492'],
-    ['perché aveva fame', 'per colpa del meteo', 'per vincere una scommessa', 'perché lo diceva il papa', 'per noia', 'perché era tutto un sogno'],
+    ['Un pirata', 'La nonna', 'Il mio vicino', 'Un gatto', 'Il prof di storia', 'Un astronauta', 'Gerolamo'],
+    ['mangia sassi', 'balla il tango', 'litiga col frigo', 'vende nuvole', 'canta sotto la doccia', 'insegue un piccione', 'Ridistribuisce le ricchezze'],
+    ['di nascosto', 'con eleganza', 'a testa in giù', 'senza pantaloni', 'piangendo di gioia', 'in silenzio', 'In modo equo'],
+    ['in cucina', 'sulla luna', 'al supermercato', 'in tangenziale', 'dentro un armadio', 'a Milano', 'Nel ventre della bestia'],
+    ['con un pinguino', 'con la zia Rosa', 'con un fantasma', 'con Napoleone', 'con nessuno', 'con un tostapane', 'Con er capitano'],
+    ['ieri a mezzanotte', "domani all'alba", "durante l'esame", 'a Natale', 'ogni lunedì', 'nel 1492', 'Nel dopo guerra'],
+    ['perché aveva fame', 'per colpa del meteo', 'per vincere una scommessa', 'perché lo diceva il papa', 'per noia', 'perché era tutto un sogno', 'Per avere un ricordo vivido'],
   ],
   gram: [
     ['Il cugino di Marco', 'Una zanzara', 'Il sindaco', 'Mia nonna', 'Un robot', 'Il postino'],
