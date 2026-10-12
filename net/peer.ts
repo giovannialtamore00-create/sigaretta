@@ -13,6 +13,8 @@ export interface Handlers {
 export interface Room {
   code: string;
   send(msg: ClientMsg): void;
+  /** Solo nel browser che ha creato la stanza: le parole scritte dagli umani, come JSON. */
+  exportWords?(): string;
 }
 
 const TICK_MS = 500;
@@ -51,7 +53,7 @@ export function createRoom(token: string, nick: string, h: Handlers): Promise<Ro
         });
         setInterval(() => session.tick(Date.now()), TICK_MS);
         const send = (m: ClientMsg) => session.onMessage(local, m, Date.now());
-        resolve({ code, send });
+        resolve({ code, send, exportWords: () => JSON.stringify(session.game.wordLog, null, 1) });
         setTimeout(() => send({ t: 'join', token, nick }), 0); // dopo che il chiamante ha ricevuto la stanza
       });
     };

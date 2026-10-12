@@ -33,6 +33,21 @@ function toReveal(g: Game, now = 1000) {
   expect(g.phase).toBe('reveal');
 }
 
+describe('registro parole', () => {
+  it('salva solo le frasi degli umani, per modalità e turno, senza doppioni', () => {
+    const g = started(4, 1);
+    for (let t = 0; t < 7; t++) {
+      playTurn(g, 11000 * (t + 1));
+      g.tick(11000 * (t + 1) + 10001); // il bot segna Pronto dopo 10 s
+    }
+    expect(g.phase).toBe('reveal');
+    expect(g.wordLog.easy[0].sort()).toEqual(['u1-t0', 'u2-t0', 'u3-t0', 'u4-t0']);
+    expect(g.wordLog.easy[6]).toHaveLength(4);
+    expect(g.wordLog.gram.flat()).toEqual([]);
+    expect(g.view('u1', 0).wordCount).toBe(28);
+  });
+});
+
 describe('lobby', () => {
   it('nickname unico senza distinzione maiuscole, max 15 caratteri', () => {
     const g = new Game();

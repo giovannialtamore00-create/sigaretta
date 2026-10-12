@@ -111,6 +111,66 @@ const playerList = (v: View, opts: { kick?: boolean; ready?: string[] } = {}) =>
 const pieces = (list: any[], writeLast = false) =>
   list.map((p, i) => `<div class="piece${writeLast && i === list.length - 1 ? ' writing' : ''}"><small>${p.turn}. ${esc(p.criterion)}, scritto da ${esc(p.author)}${p.bot ? ' (bot)' : ''}</small><span class="txt">${esc(p.text || '…')}</span></div>`).join('');
 
+// Parole scritte da questo giocatore, salvate nel browser; ognuno può inviarle di sua scelta
+// a un Google Form (da creare: poi compilare FORM_URL e FORM_ENTRY, vedi Status).
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSc-XuP0ecUMt1Rq6ydj0ab4R901rOxfCS2QYi8LwcygmpN5BA/formResponse';
+const FORM_ENTRY = 'entry.1479085044';
+type Words = Record<'easy' | 'gram', string[][]>;
+const loadWords = (): Words => {
+  try { return JSON.parse(localStorage.getItem('sigaretta-words') ?? ''); }
+  catch { return { easy: Array.from({ length: 7 }, () => []), gram: Array.from({ length: 7 }, () => []) }; }
+};
+const countWords = (w: Words) => [...w.easy, ...w.gram].reduce((n, l) => n + l.length, 0);
+let sentThanks = false;
+
+// in votazione tutti vedono tutte le storie: tengo i pezzi scritti da me (non dai bot)
+function collectWords(v: View) {
+  const me = v.players.find((p: any) => p.id === v.you)?.nick;
+  const w = loadWords();
+  let added = false;
+  for (const s of v.stories) for (const p of s.pieces) {
+    const text = String(p.text ?? '').trim();
+    const list = w[v.mode as 'easy' | 'gram']?.[p.turn - 1];
+    if (p.author === me && !p.bot && text && list && !list.includes(text)) { list.push(text); added = true; }
+  }
+  if (added) localStorage.setItem('sigaretta-words', JSON.stringify(w));
+}
+
+const wordsBtn = () => {
+  if (!FORM_URL) return '';
+  const n = countWords(loadWords());
+  if (n > 0) return `<button class="sec" id="words">Invia le mie parole (${n})</button><p class="muted">Si inviano solo le frasi, senza nickname.</p>`;
+  return sentThanks ? '<p class="muted">Parole inviate, grazie!</p>' : '';
+};
+function wireWords() {
+  const b = document.getElementById('words');
+  if (!b) return;
+  b.onclick = async () => {
+    b.setAttribute('disabled', '');
+    try {
+      await fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: new URLSearchParams({ [FORM_ENTRY]: localStorage.getItem('sigaretta-words') ?? '' }) });
+      localStorage.removeItem('sigaretta-words');
+      sentThanks = true;
+    } catch { error = 'Invio non riuscito, riprova.'; }
+    render();
+  };
+}
+
+// solo chi ha creato la stanza: scarica tutte le parole degli umani della stanza
+const hostWordsBtn = (v: View) =>
+  room?.exportWords && v.wordCount > 0 ? `<button class="sec" id="hostWords">Scarica le parole (${v.wordCount})</button>` : '';
+function wireHostWords() {
+  const b = document.getElementById('hostWords');
+  if (!b) return;
+  b.onclick = () => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([room!.exportWords!()], { type: 'application/json' }));
+    a.download = `sigaretta-parole-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+}
+
 function lobby(v: View) {
   screenKey = 'lobby';
   const h = v.isHost;
@@ -135,7 +195,11 @@ function lobby(v: View) {
       <button id="start" ${n < 4 ? 'disabled' : ''}>Avvia${n < 4 ? ' (servono 4 giocatori)' : ''}</button>`
       : `<p class="muted">Modalità ${esc(v.mode)} · ${esc(v.variant)}. Aspetta che l'host avvii.</p>`}
     <div class="err">${esc(error)}</div>
+    ${hostWordsBtn(v)}
+    ${wordsBtn()}
     <button class="sec" id="leave">Esci</button>`)) return;
+  wireWords();
+  wireHostWords();
   const $ = (id: string) => document.getElementById(id);
   $('copy')!.onclick = () => { navigator.clipboard?.writeText(link); $('copy')!.textContent = 'Copiato!'; };
   $('leave')!.onclick = () => { send({ t: 'leave' }); location.href = location.pathname; };
@@ -243,7 +307,11 @@ function end(v: View) {
   if (!paint(app, `
     <h1>La più votata è la <span class="no">storia ${v.storyNo}${RING.replace('class="ring"', 'class="ring draw"')}</span></h1>
     ${pieces(v.pieces)}
+    ${hostWordsBtn(v)}
+    ${wordsBtn()}
     <button id="back">Torna alla lobby</button>`)) return;
+  wireWords();
+  wireHostWords();
   document.getElementById('back')!.onclick = () => send({ t: 'back' });
 }
 
@@ -281,7 +349,7 @@ function render() {
   if (v.phase === 'lobby') lobby(v);
   else if (v.phase === 'write') write(v);
   else if (v.phase === 'reveal') reveal(v);
-  else if (v.phase === 'vote') vote(v);
+  else if (v.phase === 'vote') { collectWords(v); vote(v); }
   else if (v.phase === 'end') end(v);
 }
 
