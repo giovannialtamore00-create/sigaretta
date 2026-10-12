@@ -156,21 +156,6 @@ function wireWords() {
   };
 }
 
-// solo chi ha creato la stanza: scarica tutte le parole degli umani della stanza
-const hostWordsBtn = (v: View) =>
-  room?.exportWords && v.wordCount > 0 ? `<button class="sec" id="hostWords">Scarica le parole (${v.wordCount})</button>` : '';
-function wireHostWords() {
-  const b = document.getElementById('hostWords');
-  if (!b) return;
-  b.onclick = () => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([room!.exportWords!()], { type: 'application/json' }));
-    a.download = `sigaretta-parole-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
-}
-
 function lobby(v: View) {
   screenKey = 'lobby';
   const h = v.isHost;
@@ -195,11 +180,9 @@ function lobby(v: View) {
       <button id="start" ${n < 4 ? 'disabled' : ''}>Avvia${n < 4 ? ' (servono 4 giocatori)' : ''}</button>`
       : `<p class="muted">Modalità ${esc(v.mode)} · ${esc(v.variant)}. Aspetta che l'host avvii.</p>`}
     <div class="err">${esc(error)}</div>
-    ${hostWordsBtn(v)}
     ${wordsBtn()}
     <button class="sec" id="leave">Esci</button>`)) return;
   wireWords();
-  wireHostWords();
   const $ = (id: string) => document.getElementById(id);
   $('copy')!.onclick = () => { navigator.clipboard?.writeText(link); $('copy')!.textContent = 'Copiato!'; };
   $('leave')!.onclick = () => { send({ t: 'leave' }); location.href = location.pathname; };
@@ -307,11 +290,9 @@ function end(v: View) {
   if (!paint(app, `
     <h1>La più votata è la <span class="no">storia ${v.storyNo}${RING.replace('class="ring"', 'class="ring draw"')}</span></h1>
     ${pieces(v.pieces)}
-    ${hostWordsBtn(v)}
     ${wordsBtn()}
     <button id="back">Torna alla lobby</button>`)) return;
   wireWords();
-  wireHostWords();
   document.getElementById('back')!.onclick = () => send({ t: 'back' });
 }
 

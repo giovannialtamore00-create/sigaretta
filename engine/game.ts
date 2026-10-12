@@ -53,8 +53,6 @@ export class Game {
   botReadyAt = new Map<string, number>();
   botFilled = new Set<string>();
   sheets: Piece[][] = [];
-  /** Frasi scritte da umani (mai bot), per modalità e turno: da scaricare e aggiungere ai bot. */
-  wordLog: Record<Mode, string[][]> = { easy: Array.from({ length: TURNS }, () => []), gram: Array.from({ length: TURNS }, () => []) };
 
   order: number[] = [];
   ri = 0;
@@ -272,9 +270,6 @@ export class Game {
         text: this.tx.get(id) ?? '',
         bot: this.botFilled.has(id),
       };
-      const text = (this.tx.get(id) ?? '').trim();
-      const log = this.wordLog[this.mode][t];
-      if (text && !p.bot && !this.botFilled.has(id) && !log.includes(text)) log.push(text);
     });
     this.turn++;
     if (this.turn < TURNS) {
@@ -397,7 +392,6 @@ export class Game {
       you: id,
       inRoom: !!me && !me.bot,
       isHost: id === this.hostId,
-      wordCount: [...this.wordLog.easy, ...this.wordLog.gram].reduce((n, l) => n + l.length, 0),
       players: this.players.map((p) => ({
         id: p.id,
         nick: p.nick,
