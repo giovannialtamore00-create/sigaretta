@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <style>
+    .t { font-family: 'Patrick Hand', 'Comic Sans MS', cursive; font-size: 120px; fill: #33363c; }
+  </style>
+  <defs>
+    <filter id="pencil" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/>
+    </filter>
+  </defs>
+  <!-- paper -->
+  <rect width="800" height="600" rx="14" fill="#f1ede3"/>
+  <g stroke="#2c2f35" stroke-opacity=".28" stroke-width="1.5">
+    <path d="M0 64H800M0 96H800M0 128H800M0 160H800M0 192H800M0 224H800M0 256H800M0 288H800M0 320H800M0 352H800M0 384H800M0 416H800M0 448H800M0 480H800M0 512H800M0 544H800M0 576H800"/>
+  </g>
+  <path d="M60 0V600" stroke="#e88a8f" stroke-width="2.5"/>
+  <g filter="url(#pencil)" transform="translate(0 96)">
+    <!-- highlighter -->
+    <path d="M95 246 C300 234 520 242 735 230 L731 262 C520 272 300 268 99 276 Z" fill="#ffe94a" opacity=".85"/>
+    <!-- title -->
+    <g class="t">
+      <text x="100" y="232" transform="rotate(-2 100 236)">S</text>
+      <text x="178" y="234" transform="rotate(2 178 236)">I</text>
+      <text x="236" y="236" transform="rotate(-3 236 236)">G</text>
+      <text x="308" y="232" transform="rotate(2 308 236)">A</text>
+      <text x="386" y="234" transform="rotate(-2 386 236)">R</text>
+      <text x="454" y="236" transform="rotate(3 454 236)">E</text>
+      <text x="518" y="232" transform="rotate(-3 518 236)">T</text>
+      <text x="578" y="234" transform="rotate(2 578 236)">T</text>
+      <text x="636" y="236" transform="rotate(-2 636 236)">A</text>
+    </g>
+    <!-- cigarette, hand-drawn -->
+    <g transform="translate(58 0)" fill="none" stroke="#33363c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M150 318 L580 308 L582 336 L152 346 Z" fill="#fbf8ef"/>
+      <path d="M470 310 L472 338" />
+      <path d="M476 310 L478 338" />
+      <path d="M470 309 L582 307 L584 337 L472 339 Z" fill="#e0b46a" stroke-width="3"/>
+      <path d="M150 318 C142 326 142 338 152 346" />
+      <path d="M580 308 C588 316 589 330 582 336" stroke-width="3"/>
+      <!-- ash / ember -->
+      <path d="M150 318 C130 322 128 340 152 346" fill="#6c7079" stroke-width="3"/>
+      <circle cx="140" cy="332" r="5" fill="#e88a8f" stroke="none"/>
+      <!-- smoke -->
+      <path d="M128 312 C108 300 140 292 122 280" stroke="#6c7079" stroke-width="3" opacity=".7"/>
+    </g>
+  </g>
+  </svg>
